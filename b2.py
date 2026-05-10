@@ -62,8 +62,14 @@ MODEL_CFG = dict(
     max_seq_len    = 512,   # CORRECTION 1 : était 512 → aligne sur le pretrain
     n_kv_heads     = 4,
     rel_rank       = 16,
-    sym_heads      = 1,
-    vanilla_heads  = 3,
+    # ── Depth layout R8 (prioritaire sur sym/vanilla global) ──
+    depth_layout   = {
+        'bottom': {'asym': 8, 'sym': 0, 'vanilla': 0},
+        'mid':    {'asym': 4, 'sym': 0, 'vanilla': 4},
+        'top':    {'asym': 0, 'sym': 0, 'vanilla': 8},
+    },
+    sym_heads      = 0,
+    vanilla_heads  = 0,
     use_rope       = True,
     use_yarn       = False,
     use_swiglu     = True,
@@ -398,12 +404,22 @@ def load_model(model_path: str, device: str) -> NaylisGPT:
         with open(info_path) as _f:
             _info = _json.load(_f)
         _cfg = _info.get('config', {})
-        if 'sym_heads' in _cfg:
-            MODEL_CFG['sym_heads'] = _cfg['sym_heads']
-        if 'vanilla_heads' in _cfg:
-            MODEL_CFG['vanilla_heads'] = _cfg['vanilla_heads']
-        if 'sym_heads' in _cfg or 'vanilla_heads' in _cfg:
-            print(f"  head layout auto-detecte : sym={MODEL_CFG['sym_heads']}  vanilla={MODEL_CFG['vanilla_heads']}")
+        # Depth layout prioritaire
+        if 'depth_layout' in _cfg and _cfg['depth_layout'] is not None:
+            MODEL_CFG['depth_layout']  = _cfg['depth_layout']
+            MODEL_CFG['sym_heads']     = 0
+            MODEL_CFG['vanilla_heads'] = 0
+            dl = _cfg['depth_layout']
+            print(f"  depth_layout auto-detecte : bottom={dl['bottom']}  mid={dl['mid']}  top={dl['top']}")
+        else:
+            # Fallback mode global uniforme
+            MODEL_CFG['depth_layout'] = None
+            if 'sym_heads' in _cfg:
+                MODEL_CFG['sym_heads'] = _cfg['sym_heads']
+            if 'vanilla_heads' in _cfg:
+                MODEL_CFG['vanilla_heads'] = _cfg['vanilla_heads']
+            if 'sym_heads' in _cfg or 'vanilla_heads' in _cfg:
+                print(f"  head layout auto-detecte : sym={MODEL_CFG['sym_heads']}  vanilla={MODEL_CFG['vanilla_heads']}")
 
     model = NaylisGPT(**MODEL_CFG)
 
