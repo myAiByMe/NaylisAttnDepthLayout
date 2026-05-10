@@ -401,7 +401,7 @@ class NaylisAttention(nn.Module):
         # En decode (S=1 + KV cache) : pas de graph_bias
         # car x=[B,1,D] → on ne peut pas calculer R_k sur S_total
         # Le biais est appliqué uniquement en prefill (S>1)
-        _use_graph = (not use_varlen) and (S > 1 or past_kv is None)
+        _use_graph = self.graph_heads > 0 and (not use_varlen) and (S > 1 or past_kv is None)
         graph_bias = (
             self._compute_graph_bias(x, q.dtype) if _use_graph else None
         )
