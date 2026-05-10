@@ -1,0 +1,20 @@
+# HessGPT — Requirements
+# Python 3.10+  |  CUDA 12.8+  |  B200 Blackwell SM100
+# ── Core ──────────────────────────────────────────────────────
+torch>=2.6.0                  # FA SDPA, fused AdamW, torch.compile, TF32, FP8 native
+torchvision>=0.21.0
+# ── HuggingFace ───────────────────────────────────────────────
+transformers>=4.40.0
+datasets>=2.19.0
+huggingface-hub>=0.23.0
+# ── Tokenizer backend ─────────────────────────────────────────
+tokenizers>=0.19.0
+# ── Utilitaires training ──────────────────────────────────────
+tqdm>=4.66.0
+numpy>=1.26.0
+# ── Flash Attention 2.8.3 ─────────────────────────────────────
+# wheel précompilé — pas de compilation CUDA requise
+#flash-attn==2.8.3
+# ── Linear Flash Attention ────────────────────────────────────
+# attention linéaire O(N) — requis pour les blocs GDN/linéaire
+flash-linear-attention
