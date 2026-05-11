@@ -64,9 +64,9 @@ MODEL_CFG = dict(
     rel_rank       = 16,
     # ── Depth layout R8 (prioritaire sur sym/vanilla global) ──
     depth_layout   = {
-        'bottom': {'asym': 8, 'sym': 0, 'vanilla': 0},
+        'bottom': {'asym': 4, 'sym': 0, 'vanilla': 4},
         'mid':    {'asym': 4, 'sym': 0, 'vanilla': 4},
-        'top':    {'asym': 0, 'sym': 0, 'vanilla': 8},
+        'top':    {'asym': 3, 'sym': 0, 'vanilla': 5},
     },
     sym_heads      = 0,
     vanilla_heads  = 0,
