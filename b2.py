@@ -66,7 +66,7 @@ MODEL_CFG = dict(
     depth_layout   = {
         'bottom': {'asym': 4, 'sym': 0, 'vanilla': 4},
         'mid':    {'asym': 4, 'sym': 0, 'vanilla': 4},
-        'top':    {'asym': 3, 'sym': 0, 'vanilla': 5},
+        'top':    {'asym': 0, 'sym': 0, 'vanilla': 8},
     },
     sym_heads      = 0,
     vanilla_heads  = 0,
