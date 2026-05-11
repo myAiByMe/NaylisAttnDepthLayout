@@ -77,9 +77,9 @@ CONFIG = {
     #
     # Config R8 — Depth Layout Hypothesis (run de référence) :
     'depth_layout'          : {
-        'bottom': {'asym': 8, 'sym': 0, 'vanilla': 0},   # layers 0–2  (3/12)
+        'bottom': {'asym': 4, 'sym': 0, 'vanilla': 4},   # layers 0–2  (3/12)
         'mid':    {'asym': 4, 'sym': 0, 'vanilla': 4},   # layers 3–8  (6/12)
-        'top':    {'asym': 0, 'sym': 0, 'vanilla': 8},   # layers 9–11 (3/12)
+        'top':    {'asym': 3, 'sym': 0, 'vanilla': 5},   # layers 9–11 (3/12)
     },
     # Pour revenir au mode global uniforme, mettre depth_layout=None
     # et définir sym_heads / vanilla_heads :
